@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Editor de Dibujo con Fondo y Texturas</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="container">
+  <canvas id="canvasFondo"></canvas>
+  <canvas id="canvasManiqui"></canvas>
+  <canvas id="canvasDibujo"></canvas>
+</div>
+
+<div class="tools">
+  <label>Color: <input type="color" id="colorPicker" value="#000000"></label>
+  <label>Tamaño: <input type="range" id="brushSize" min="1" max="50" value="20"></label>
+  
+  <button onclick="tool='brush'">🖌️ Pincel</button>
+  <button onclick="tool='eraser'">🩹 Goma</button>
+  <button onclick="tool='spray'">💨 Spray</button>
+  <button onclick="clearCanvas()">🗑️ Limpiar dibujo</button>
+  <button onclick="undo()">↩️ Deshacer</button>
+
+  <label>Textura:
+  <select id="texturePicker">
+    <option value="none">Ninguna</option>
+    <option value="brushTexture.png">Cuadrado</option>
+    <option value="brushTexture2.jpg">Nueva textura</option>
+  </select>
+</label>
+
+</div>
+
+<script src="sketch_250924b.js"></script>
+</body>
+</html>
