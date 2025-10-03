@@ -4,8 +4,8 @@ body, html {
   width:100%;
   height:100%;
   overflow:hidden;
+  background:#111;
   font-family: 'Segoe UI', sans-serif;
-  background:#222;
 }
 
 #container {
@@ -22,29 +22,63 @@ canvas {
   cursor: crosshair;
 }
 
-/* Barra tipo FigJam */
-.tools {
+/* Barra inferior */
+.bottom-bar {
   position: fixed;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(50,50,50,0.95);
+  background: rgba(30,30,30,0.95);
   border-radius: 15px;
   padding: 10px 20px;
   display: flex;
-  gap: 15px;
   align-items: center;
-  flex-wrap: wrap;
+  gap: 15px;
   z-index: 1000;
 }
 
-.tools label { display:flex; align-items:center; gap:5px; font-size:14px; }
-.tools input[type=color]{ width:35px; height:35px; border:none; border-radius:5px; cursor:pointer; }
-.tools input[type=range]{ width:100px; cursor:pointer; }
-.tools button{ background:#666; color:white; border:none; padding:8px 12px; border-radius:8px; cursor:pointer; font-size:16px; transition:0.2s; }
-.tools button:hover{ background:#888; }
-@media(max-width:500px){ 
-  .tools { gap:8px; padding:8px 12px; } 
-  .tools button{ padding:6px 10px; font-size:14px; } 
-  .tools input[type=range]{ width:70px; } 
+.bottom-bar button,
+.side-tools button {
+  background: #333;
+  border: none;
+  color: white;
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.bottom-bar button:hover,
+.side-tools button:hover {
+  background: #666;
+}
+
+.bottom-bar input[type=color] {
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.bottom-bar input[type=range] {
+  width: 120px;
+}
+
+/* Botonera lateral derecha */
+.side-tools {
+  position: fixed;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  z-index: 1000;
+}
+
+.side-tools button {
+  width: 50px;
+  height: 50px;
 }

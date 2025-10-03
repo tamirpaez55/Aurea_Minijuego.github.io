@@ -14,7 +14,7 @@ let painting = false;
 let currentColor = document.getElementById("colorPicker").value;
 let brushSize = document.getElementById("brushSize").value;
 
-// Historial para undo
+// Historial para undo (pa volver atras) (de momento solo funciona para lo que se dibuja y no para lo que se borra (goma y tacho)
 let undoStack = [];
 const maxUndo = 20;
 
@@ -37,14 +37,13 @@ fondoImg.src = "fondo1.png";
 const maniqui = new Image();
 maniqui.src = "outfit.png";
 
-// Variables para centrar maniquí
+// Variables para centrar maniqui
 let maniquiWidth, maniquiHeight, maniquiX, maniquiY;
 
 // Redimensionar
 function resizeCanvas(){
   canvasFondo.width = window.innerWidth;
   canvasFondo.height = window.innerHeight;
-
   if(fondoImg.complete) ctxFondo.drawImage(fondoImg,0,0,canvasFondo.width,canvasFondo.height);
 
   const scale = Math.min(window.innerWidth / maniqui.width, window.innerHeight / maniqui.height) * 0.5;
@@ -92,7 +91,7 @@ function startDraw(e){
 function stopDraw(){
   painting=false;
   ctxDibujo.beginPath();
-  saveState(); // Guardar estado al terminar dibujo
+  saveState();
 }
 
 function draw(e){
@@ -166,7 +165,7 @@ function spray(ctx,x,y,color,size){
 
 function clearCanvas(){
   ctxDibujo.clearRect(0,0,canvasDibujo.width,canvasDibujo.height);
-  undoStack = []; // limpiar historial
+  undoStack = [];
 }
 
 // ---- Undo ----
@@ -184,4 +183,16 @@ function undo(){
     ctxDibujo.clearRect(0,0,canvasDibujo.width,canvasDibujo.height);
     ctxDibujo.drawImage(img,0,0,canvasDibujo.width,canvasDibujo.height);
   }
+}
+
+// ---- Extra ----
+function downloadImage(){
+  const link = document.createElement("a");
+  link.download = "dibujo.png";
+  link.href = canvasDibujo.toDataURL();
+  link.click();
+}
+
+function toggleHelp(){
+  alert("Ayuda pendiente :)");
 }
