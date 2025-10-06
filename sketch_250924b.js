@@ -186,13 +186,31 @@ function undo(){
 }
 
 // ---- Extra ----
-function downloadImage(){
+function downloadImage() {
+  // Crear un canvas temporal con el tamaño del maniquí
+  const mergedCanvas = document.createElement("canvas");
+  const ctx = mergedCanvas.getContext("2d");
+
+  mergedCanvas.width = maniquiWidth;
+  mergedCanvas.height = maniquiHeight;
+
+  // 1️⃣ Dibujar el maniquí
+  if (maniqui.complete) {
+    ctx.drawImage(maniqui, 0, 0, maniquiWidth, maniquiHeight);
+  }
+
+  // 2️⃣ Dibujar el canvas del usuario encima
+  ctx.drawImage(canvasDibujo, 0, 0, maniquiWidth, maniquiHeight);
+
+  // 3️⃣ Descargar la imagen final (sin fondo)
   const link = document.createElement("a");
-  link.download = "dibujo.png";
-  link.href = canvasDibujo.toDataURL();
+  link.download = "dibujo_sin_fondo.png";
+  link.href = mergedCanvas.toDataURL("image/png");
   link.click();
 }
 
+
+
 function toggleHelp(){
-  alert("Ayuda pendiente :)");
+  alert("nancy");
 }
