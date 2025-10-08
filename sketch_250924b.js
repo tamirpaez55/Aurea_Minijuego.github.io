@@ -41,25 +41,34 @@ maniqui.src = "outfit.png";
 let maniquiWidth, maniquiHeight, maniquiX, maniquiY;
 
 // Redimensionar
-function resizeCanvas(){
+function resizeCanvas() {
+  // --- Fondo ---
   canvasFondo.width = window.innerWidth;
   canvasFondo.height = window.innerHeight;
-  if(fondoImg.complete) ctxFondo.drawImage(fondoImg,0,0,canvasFondo.width,canvasFondo.height);
+  if (fondoImg.complete)
+    ctxFondo.drawImage(fondoImg, 0, 0, canvasFondo.width, canvasFondo.height);
 
+  // --- Maniquí ---
   const scale = Math.min(window.innerWidth / maniqui.width, window.innerHeight / maniqui.height) * 0.5;
   maniquiWidth = maniqui.width * scale;
   maniquiHeight = maniqui.height * scale;
-  maniquiX = (window.innerWidth - maniquiWidth)/2;
-  maniquiY = (window.innerHeight - maniquiHeight)/2;
+  maniquiX = (window.innerWidth - maniquiWidth) / 2;
+  maniquiY = (window.innerHeight - maniquiHeight) / 2;
 
-  [canvasManiqui, canvasDibujo].forEach(c=>{
-    c.width = maniquiWidth;
-    c.height = maniquiHeight;
-    c.style.left = maniquiX + "px";
-    c.style.top = maniquiY + "px";
-  });
+  canvasManiqui.width = maniquiWidth;
+  canvasManiqui.height = maniquiHeight;
+  canvasManiqui.style.left = maniquiX + "px";
+  canvasManiqui.style.top = maniquiY + "px";
 
-  if(maniqui.complete) ctxManiqui.drawImage(maniqui,0,0,maniquiWidth,maniquiHeight);
+  if (maniqui.complete)
+    ctxManiqui.drawImage(maniqui, 0, 0, maniquiWidth, maniquiHeight);
+
+  // --- Dibujo (más grande) ---
+  const extraMargin = 100; // 🔸 controla cuánto más grande será el área de dibujo
+  canvasDibujo.width = maniquiWidth + extraMargin * 2;
+  canvasDibujo.height = maniquiHeight + extraMargin * 2;
+  canvasDibujo.style.left = (maniquiX - extraMargin) + "px";
+  canvasDibujo.style.top = (maniquiY - extraMargin) + "px";
 }
 
 [fondoImg, maniqui].forEach(img=>img.onload = resizeCanvas);
@@ -214,3 +223,4 @@ function downloadImage() {
 function toggleHelp(){
   alert("nancy");
 }
+
