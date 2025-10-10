@@ -157,6 +157,7 @@ canvas {
 /* Mobile → 1 columna, 6 filas */
 @media (max-width: 708px) {
   .side-tools {
+    top: 60%;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(6, auto);
     right: 10px;
@@ -186,3 +187,4 @@ canvas {
     padding: 6px 10px;
   }
 }
+
