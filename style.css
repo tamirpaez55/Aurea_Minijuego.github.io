@@ -20,24 +20,23 @@ canvas {
   top: 0;
   display: block;
   cursor: crosshair;
-  z-index: 1; /* ahora el maniquí queda delante del texto */
+  z-index: 1;
 }
 
 /* === Texto IU === */
 #textoIU {
-    position: absolute;
-    left: 8%;
-    top: 3%;
-    width: 26vw;
-    min-width: 320px;
-    max-width: 600px;
-    height: auto;
-    z-index: 2;
-    opacity: 0.95;
-    pointer-events: none;
-    mix-blend-mode: lighten;
-    transition: opacity 0.5s 
-ease;
+  position: absolute;
+  left: 8%;
+  top: 3%;
+  width: 26vw;
+  min-width: 320px;
+  max-width: 600px;
+  height: auto;
+  z-index: 2;
+  opacity: 0.95;
+  pointer-events: none;
+  mix-blend-mode: lighten;
+  transition: opacity 0.5s ease;
 }
 
 /* === Barra inferior === */
@@ -46,7 +45,7 @@ ease;
   bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(30,30,30,0.95);
+  background: transparent;
   border-radius: 15px;
   padding: 10px 20px;
   display: flex;
@@ -55,101 +54,135 @@ ease;
   z-index: 1000;
 }
 
+/* Contenedor de colorpicker y slider */
+.controls-group {
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.71);
+  border-radius: 30px;
+  padding: 8px 14px;
+  height: 46px;
+  gap: 12px;
+}
+
+/* === Botones generales === */
 .bottom-bar button,
 .side-tools button {
-  background: #222;
-  border: none;
-  color: white;
-  font-size: 18px;
-  padding: 10px;
-  border-radius: 50%;
+  all: unset;
   cursor: pointer;
-  transition: background 0.2s, transform 0.2s;
-}
-
-.bottom-bar button:hover,
-.side-tools button:hover {
-  background: #6b3eff;
-  transform: scale(1.08);
-}
-
-.bottom-bar input[type=color] {
-  width: 40px;
-  height: 40px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.bottom-bar input[type=range] {
-  width: 120px;
-}
-
-/* === Botonera lateral derecha (Desktop) === */
-.side-tools {
-  position: fixed;
-  top: 70%;
-  left: 65%;
-  transform: translateY(-50%);
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 25px;
-  z-index: 1000;
-}
-
-.tool-btn {
-  width: 65px;
-  height: 65px;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at center, #333 0%, #111 90%);
-  box-shadow: 0 0 10px rgba(255,255,255,0.15);
-  transition: box-shadow 0.2s, transform 0.2s;
+  transition: transform 0.2s;
 }
 
-.tool-btn:hover {
-  box-shadow: 0 0 15px rgba(107,62,255,0.8);
+/* === Iconos === */
+.bottom-bar button img,
+.side-tools button img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  display: block;
+}
+
+.bottom-bar button:hover img,
+.side-tools button:hover img {
   transform: scale(1.1);
 }
 
-.tool-btn img {
-  width: 38px;
-  height: 38px;
-  object-fit: contain;
-  filter: invert(1) drop-shadow(0 0 3px rgba(255,255,255,0.3));
+/* === Inputs === */
+.bottom-bar input[type=color] {
+  width: 50px;
+  height: 30px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  background: none;
 }
 
-/* === Versión Mobile === */
-@media (max-width: 768px) {
-    #textoIU {
-        top: 0%;
-        left: 35%;
-        transform: translateX(-50%);
-        width: 55vw;
-        min-width: 140px;
-        max-width: 240px;
-        opacity: 0.85;
-    }
+/* === Slider tipo cápsula === */
+.bottom-bar input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 150px;
+  height: 24px;
+  border-radius: 10px;
+  background: #fff;
+  outline: none;
+  cursor: pointer;
+}
 
+
+.bottom-bar input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #111;
+  border: 2px solid white;
+  cursor: pointer;
+}
+
+/* === Selector de textura === */
+#texturePicker {
+  background: rgba(30,30,30,0.8);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 14px;
+}
+
+/* === Botonera lateral derecha === */
+.side-tools {
+  position: fixed;
+  right: calc(46% - 320px);
+  top: 70%;
+  transform: translateY(-50%);
+  display: grid;
+  gap: 20px;
+  z-index: 1000;
+  background: transparent;
+}
+
+/* Desktop → 2 columnas, 3 filas */
+@media (min-width: 709px) {
   .side-tools {
-    right: 20px;
-    left: auto;
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, auto);
+  }
+}
+
+/* Mobile → 1 columna, 6 filas */
+@media (max-width: 708px) {
+  .side-tools {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(6, auto);
+    right: 10px;
+    gap: 15px;
   }
 
-  .tool-btn {
+  .side-tools button img {
     width: 55px;
     height: 55px;
   }
 
-  .tool-btn img {
-    width: 30px;
-    height: 30px;
+  .bottom-bar button img {
+    width: 55px;
+    height: 55px;
+  }
+
+  .bottom-bar input[type=color] {
+    width: 40px;
+    height: 40px;
+  }
+
+  .bottom-bar input[type=range] {
+    width: 120px;
+  }
+
+  .controls-group {
+    padding: 6px 10px;
   }
 }

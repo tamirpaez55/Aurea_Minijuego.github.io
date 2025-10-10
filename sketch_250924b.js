@@ -64,19 +64,30 @@ function resizeCanvas() {
     ctxManiqui.drawImage(maniqui, 0, 0, maniquiWidth, maniquiHeight);
 
   // --- Dibujo (más grande) ---
-  const extraMargin = 100; // 🔸 controla cuánto más grande será el área de dibujo
+  const extraMargin = 100; // 📸 controla cuánto más grande será el área de dibujo
   canvasDibujo.width = maniquiWidth + extraMargin * 2;
   canvasDibujo.height = maniquiHeight + extraMargin * 2;
   canvasDibujo.style.left = (maniquiX - extraMargin) + "px";
   canvasDibujo.style.top = (maniquiY - extraMargin) + "px";
 }
 
+
 [fondoImg, maniqui].forEach(img=>img.onload = resizeCanvas);
 window.addEventListener("resize", resizeCanvas);
 
 // Color y tamaño
 document.getElementById("colorPicker").addEventListener("input", e=>currentColor=e.target.value);
-document.getElementById("brushSize").addEventListener("input", e=>brushSize=e.target.value);
+
+const brushSizeSlider = document.getElementById("brushSize");
+function updateSliderProgress() {
+  const value = (brushSizeSlider.value - brushSizeSlider.min) / (brushSizeSlider.max - brushSizeSlider.min) * 100;
+  brushSizeSlider.style.background = `linear-gradient(to right, #111 0%, #111 ${value}%, #fff ${value}%, #fff 100%)`;
+}
+brushSizeSlider.addEventListener("input", e => {
+  brushSize = e.target.value;
+  updateSliderProgress();
+});
+updateSliderProgress();
 
 // Dibujo
 let lastX = 0, lastY = 0;
@@ -196,31 +207,41 @@ function undo(){
 
 // ---- Extra ----
 function downloadImage() {
-  // Crear un canvas temporal con el tamaño del maniquí
+  // Crear un canvas temporal más grande que incluya todo el área de dibujo
+  const extraMargin = 100;
   const mergedCanvas = document.createElement("canvas");
   const ctx = mergedCanvas.getContext("2d");
 
-  mergedCanvas.width = maniquiWidth;
-  mergedCanvas.height = maniquiHeight;
+  mergedCanvas.width = canvasDibujo.width;
+  mergedCanvas.height = canvasDibujo.height;
 
-  // 1️⃣ Dibujar el maniquí
+  // 1️⃣ Dibujar el maniquí en el centro (con el offset del margen)
   if (maniqui.complete) {
-    ctx.drawImage(maniqui, 0, 0, maniquiWidth, maniquiHeight);
+    ctx.drawImage(maniqui, extraMargin, extraMargin, maniquiWidth, maniquiHeight);
   }
 
-  // 2️⃣ Dibujar el canvas del usuario encima
-  ctx.drawImage(canvasDibujo, 0, 0, maniquiWidth, maniquiHeight);
+  // 2️⃣ Dibujar todo el canvas de dibujo encima
+  ctx.drawImage(canvasDibujo, 0, 0);
 
-  // 3️⃣ Descargar la imagen final (sin fondo)
+  // 3️⃣ Recortar solo la parte que nos interesa (maniquí + dibujo)
+  const finalCanvas = document.createElement("canvas");
+  const finalCtx = finalCanvas.getContext("2d");
+  finalCanvas.width = maniquiWidth;
+  finalCanvas.height = maniquiHeight;
+  
+  finalCtx.drawImage(
+    mergedCanvas,
+    extraMargin, extraMargin, maniquiWidth, maniquiHeight,
+    0, 0, maniquiWidth, maniquiHeight
+  );
+
+  // 4️⃣ Descargar la imagen final (sin fondo)
   const link = document.createElement("a");
   link.download = "dibujo_sin_fondo.png";
-  link.href = mergedCanvas.toDataURL("image/png");
+  link.href = finalCanvas.toDataURL("image/png");
   link.click();
 }
-
-
 
 function toggleHelp(){
   alert("nancy");
 }
-

@@ -3,9 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Editor de Dibujo con Fondo y Texturas</title>
+<title>Tu estilo es tu identidad</title>
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
 <div id="container">
@@ -22,17 +23,22 @@
   <button class="tool-btn" onclick="undo()"><img src="./Iconos/Retroceder.png" alt="Undo"></button>
   <button class="tool-btn" onclick="tool='brush'"><img src="./Iconos/Marcador.png" alt="Brush"></button>
   <button class="tool-btn" onclick="tool='eraser'"><img src="./Iconos/Goma.png" alt="Eraser"></button>
-  <button class="tool-btn" onclick="tool='spray'"><img src="./Iconos/Goma.png" alt="Spray"></button>
+  <button class="tool-btn" onclick="tool='spray'"><img src="./Iconos/Spray.png" alt="Spray"></button>
   <button class="tool-btn" onclick="clearCanvas()"><img src="./Iconos/BorrarTodo.png" alt="Clear"></button>
   <button class="tool-btn" onclick="toggleHelp()"><img src="./Iconos/Sabermas.png" alt="Help"></button>
 </div>
 
-
 <!-- Barra inferior -->
 <div class="bottom-bar">
-  <button onclick="downloadImage()">⬇️</button>
-  <input type="color" id="colorPicker" value="#ff0000">
-  <input type="range" id="brushSize" min="1" max="50" value="20">
+  <button class="download-btn" onclick="downloadImage()">
+    <img src="/Iconos/Descargar.png" alt="Descargar">
+  </button>
+
+  
+  <div class="controls-group">
+    <input type="color" id="colorPicker" value="#ff0000">
+    <input type="range" id="brushSize" min="1" max="50" value="20">
+  </div>
 
   <select id="texturePicker">
     <option value="none">Sin textura</option>
@@ -49,4 +55,3 @@
 <script src="sketch_250924b.js"></script>
 </body>
 </html>
-
